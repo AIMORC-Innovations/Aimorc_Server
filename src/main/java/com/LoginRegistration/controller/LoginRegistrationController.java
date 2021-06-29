@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.LoginRegistration.Exception.UserNotFoundException;
 import com.LoginRegistration.entity.Login;
 import com.LoginRegistration.entity.Register;
 import com.LoginRegistration.services.LoginServices;
@@ -20,11 +22,11 @@ public class LoginRegistrationController {
 	private LoginServices loginservices;
 	
 
-	@GetMapping("/login/{userid}") 
-	  public Optional<Login> getLoginById(@PathVariable int userid) 
-	{
-	     return this.loginservices.getLoginById(userid);
-	   }
+	@PostMapping("/login")
+	public Login getuserdetails(@RequestBody Login login) throws UserNotFoundException {
+		return this.loginservices.getuserdetails(login.getUsername(), login.getPassword())
+			.orElseThrow(() -> new UserNotFoundException("User not found with this name: " + login.getUsername()));
+	}
 	
 
 }
