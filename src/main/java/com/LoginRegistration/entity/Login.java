@@ -10,16 +10,10 @@ import javax.persistence.Table;
 @Table(name = "login")
 public class Login {
 
-	/*
-	 * @OneToMany(cascade = CascadeType.ALL,fetch =
-	 * FetchType.LAZY)//orphanRemoval=true
-	 * 
-	 * @JoinColumn(name="userid", referencedColumnName="userid") private Category
-	 * category;
-	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int userid;
+
 	private String username;
 	private String password;
 	private String lastlogin;
@@ -60,8 +54,9 @@ public class Login {
 
 	}
 
-	public Login(String username, String password, String lastlogin) {
+	public Login(int userid, String username, String password, String lastlogin) {
 		super();
+		this.userid = userid;
 		this.username = username;
 		this.password = password;
 		this.lastlogin = lastlogin;
@@ -70,6 +65,12 @@ public class Login {
 	public Login(int userid) {
 		super();
 		this.userid = userid;
+	}
+
+	@Override
+	public String toString() {
+		return "Login [userid=" + userid + ", username=" + username + ", password=" + password + ", lastlogin="
+				+ lastlogin + "]";
 	}
 
 }
