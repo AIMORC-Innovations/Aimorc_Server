@@ -9,7 +9,6 @@ import com.LoginRegistration.Exception.UserNotFoundException;
 import com.LoginRegistration.entity.Forgotpassword;
 import com.LoginRegistration.entity.Login;
 
-
 import com.LoginRegistration.services.LoginServices;
 
 @RestController
@@ -28,12 +27,13 @@ public class LoginController {
 	public ResponseEntity<String> getIdAndAns(@RequestBody Forgotpassword fp) throws UserNotFoundException {
 		System.out.println("Controller" + fp);
 		return this.loginServices.getIdAndAns(fp);
-		
 
 	}
 
-	
-	 
-	
+	@PostMapping("/setpassword")
+	public ResponseEntity<String> setpassword(@RequestBody Login login) {
+		System.out.println("Username is " + login.getUsername() + "Password is " + login.getPassword());
+		return this.loginServices.setpassword(login);
+	}
 
 }

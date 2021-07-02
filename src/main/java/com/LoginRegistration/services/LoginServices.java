@@ -2,6 +2,7 @@ package com.LoginRegistration.services;
 
 import java.util.Base64;
 import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,9 +46,21 @@ public class LoginServices {
 		security.setSecurity_answer(register.getSecurity_answer());
 		if (register.getSecurity_id() == fp.getSecurity_id()
 				&& register.getSecurity_answer().toString().equalsIgnoreCase(fp.getSecurity_answer()))
-			return new ResponseEntity<String>("Credentials are valid, you can change password now!",
-					HttpStatus.ACCEPTED);
+			return new ResponseEntity<String>("Credentials are valid, you can change password now!", HttpStatus.OK);
 		return new ResponseEntity<String>("Please provide valid question and answer!", HttpStatus.BAD_REQUEST);
 	}
 
+	@Transactional
+	public ResponseEntity<String> setpassword(Login login) {
+		System.out.println("password is " + login.getPassword());
+		Optional<Login> logins = this.loginRepository.findByUsername(login.getUsername());
+		String encryptedpassword = getEncodedString(login.getPassword());
+		System.out.println("encryptedpassword = " + encryptedpassword);
+		if (!logins.get().getPassword().toString().equalsIgnoreCase(encryptedpassword)) {
+			loginRepository.updatePassword(login.getUsername(), encryptedpassword);
+			return new ResponseEntity<String>("Password updated succesfully", HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("Password entered already exist!", HttpStatus.OK);
+
+	}
 }
