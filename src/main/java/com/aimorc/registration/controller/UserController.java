@@ -3,6 +3,7 @@ package com.aimorc.registration.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aimorc.registration.RegitrationException.UserNotFoundException;
+import com.aimorc.registration.entity.UpdatePassword;
 import com.aimorc.registration.entity.User;
 import com.aimorc.registration.service.UserService;
 
@@ -43,4 +45,18 @@ public class UserController {
 		return this.userService.getuserid(login.getUsername())
 				.orElseThrow(() -> new UserNotFoundException("User not found with this name: " + login.getUsername()));
 	}
+	
+	/*
+	 * @PostMapping("/updatepassword") public ResponseEntity<String>
+	 * updatePassword(@RequestBody User login) { System.out.println("Username is " +
+	 * login.getUsername() + "Password is " + login.getPassword()); return
+	 * this.userService.updatePassword(login); }
+	 */
+	
+		
+	@PostMapping("/updatepassword")
+	public ResponseEntity<String> updatePassword(@RequestBody UpdatePassword password) {
+		return this.userService.updatePassword(password);
+	}
+	
 }
