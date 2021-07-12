@@ -19,4 +19,6 @@ public interface LoginRepository extends JpaRepository<Login, Integer> {
 	@Query(value = "UPDATE login set password=:password where username=:username", nativeQuery = true)
 	public int updatePassword(@Param("username") String username, @Param("password") String password);
 
+	
+
 }

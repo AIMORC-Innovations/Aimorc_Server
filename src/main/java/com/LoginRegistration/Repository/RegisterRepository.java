@@ -12,4 +12,14 @@ public interface RegisterRepository extends JpaRepository<Register, Integer> {
 
 	public Register findById(int userid);
 
+	@Query(value = "select security_id , security_answer from registration where security_id=? and security_answer=? and userid=?", nativeQuery = true)
+	public Register findBySecurityIdAndSecurityAns(@Param("security_id") int security_id,
+			@Param("security_answer") String security_answer, @Param("userid") int userid);
+
+	@Modifying
+	@Query(value = "UPDATE registration set firstname=:firstname,lastname=:lastname,dob=:dob,gender=:gender,phonenum=:phonenum, address=:address where userid=:userid", nativeQuery = true)
+	public void updateDetails(@Param("firstname") String firstname, @Param("lastname") String lastname,
+			@Param("dob") String dob, @Param("gender") String gender, @Param("phonenum") String phonenum,
+			@Param("address") String address, @Param("userid") int userid);
+
 }

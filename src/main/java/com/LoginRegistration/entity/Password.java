@@ -5,7 +5,7 @@ public class Password {
 	private int security_id;
 	private String security_answer;
 	private String oldpassword;
-	private String updatepassword;
+	private String newpassword;
 
 	public String getUsername() {
 		return username;
@@ -39,18 +39,18 @@ public class Password {
 		this.oldpassword = oldpassword;
 	}
 
-	public String getUpdatepassword() {
-		return updatepassword;
+	public String getNewpassword() {
+		return newpassword;
 	}
 
-	public void setUpdatepassword(String updatepassword) {
-		this.updatepassword = updatepassword;
+	public void setNewpassword(String newpassword) {
+		this.newpassword = newpassword;
 	}
 
 	@Override
 	public String toString() {
 		return "Forgotpassword [username=" + username + ", security_id=" + security_id + ", security_answer="
-				+ security_answer + ", oldpassword=" + oldpassword + ", updatepassword=" + updatepassword + "]";
+				+ security_answer + ", oldpassword=" + oldpassword + ", newpassword=" + newpassword + "]";
 	}
 
 	public Password() {
