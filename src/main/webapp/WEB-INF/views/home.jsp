@@ -400,7 +400,7 @@ footer {
 							style="padding: 5px; margin-top: 5px;"></i> Account
 					</button>
 					<div class="dropdown-menu dropdown-menu-right" id="dropdown-item">
-						<a class="dropdown-item " id="text" href="/profile"><i
+						<a class="dropdown-item " id="text" href="/profilePage"><i
 							class="fa fa-user" aria-hidden="true" style="padding: 5px;"></i>
 							Profile</a><a class="dropdown-item " id="text"
 								href="productimage.jsp"><i class="fa fa-list-alt"

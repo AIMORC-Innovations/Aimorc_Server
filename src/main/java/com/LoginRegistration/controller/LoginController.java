@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.LoginRegistration.Exception.UserNotFoundException;
@@ -112,14 +113,24 @@ public class LoginController {
 	
 
 	
-	public Profile getProfileDetails(String username) throws UserNotFoundException {
-		return this.loginServices.getProfileDetails(sessionusername);
-		}
+	@RequestMapping(value = "/profile", method = RequestMethod.GET, headers = "Accept=application/json")
+	@ResponseBody 
+	public Profile getProfileDetails(HttpServletRequest request) throws UserNotFoundException {
+		HttpSession session = request.getSession(false);
+		if (session != null) 
+			sessionusername = (String) session.getAttribute("username");
+			return this.loginServices.getProfileDetails(sessionusername);
+	} 
 	
 	
 
-	@PostMapping("/updateprofiledetails")
-	public ResponseEntity<String> updateuserdetails(@RequestBody Profile profile) throws UserNotFoundException {
+	@PostMapping("/updateProfileDetails")
+	public ResponseEntity<String> updateuserdetails(@RequestBody Profile profile, HttpServletRequest request)
+			throws UserNotFoundException {
+		HttpSession session = request.getSession(false);
+		if (session != null)
+			sessionusername = (String) session.getAttribute("username");
+		profile.setUsername(sessionusername);
 		return this.loginServices.updateuserdetails(profile);
 	}
 
@@ -170,18 +181,21 @@ public class LoginController {
 		return "loginchangepassword";
 	}
 	
+	@RequestMapping("/profilePage")
+	public String profilePage() {
+		return "profile";
+	}
 	
-	  @RequestMapping("/profile") 
-	  public String profilePage(HttpServletRequest request) throws UserNotFoundException 
-	  {
-			HttpSession session = request.getSession(false);
-			if (session != null)
-			sessionusername = (String) session.getAttribute("username");
-			getProfileDetails(sessionusername);
-		  return "profile"; 
-		  }
+	@RequestMapping("/updateProfile")
+	public String editProfilepage() {
+		return "editprofile";
+	}
+	
+	
+	
+	
 	 
-	
+
 
 
 }

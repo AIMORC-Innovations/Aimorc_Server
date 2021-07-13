@@ -126,6 +126,7 @@ public class LoginServices {
 		profile.setPhonenum(register.getPhonenum());
 		profile.setGender(register.getGender());
 		profile.setAddress(register.getAddress());
+		System.out.println(profile);
 		return profile;
 	}
 

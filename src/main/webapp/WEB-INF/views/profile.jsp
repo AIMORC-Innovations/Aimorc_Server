@@ -134,12 +134,12 @@ footer {
 
 					<tr>
 						<th>First Name</th>
-						<td id="firstName"></td>
+						<td id="firstname"></td>
 					</tr>
 
 					<tr>
 						<th scope="row">Last Name</th>
-						<td id="lastName"></td>
+						<td id="lastname"></td>
 					</tr>
 
 					<tr>
@@ -163,7 +163,7 @@ footer {
 					</tr>
 
 				</table>
-				<a href="editprofile.jsp">
+				<a href="/updateProfile">
 					<button type="button" id="edit-profile-button"
 						class="btn btn-primary">Edit</button>
 				</a>
@@ -181,15 +181,16 @@ footer {
 										url : "/profile",
 										contentType : "application/json",
 										success : function(data) {
-											var userJSON = JSON.parse(data);
-											document.getElementById("firstName").innerHTML = userJSON.firstName;
-											document.getElementById("lastName").innerHTML = userJSON.lastName;
-											document.getElementById("dob").innerHTML = userJSON.dob;
-											document.getElementById("gender").innerHTML = userJSON.gender;
-											document.getElementById("phonenum").innerHTML = userJSON.phonenum;
-											document.getElementById("address").innerHTML = userJSON.address;
-											localStorage.setItem('userJSON', JSON.stringify(userJSON));
-											console.log(userJSON);
+											console.log(data);
+											//var userJSON = JSON.parse(data);
+											document.getElementById("firstname").innerHTML = data.firstname;
+											document.getElementById("lastname").innerHTML = data.lastname;
+											document.getElementById("dob").innerHTML = data.dob;
+											document.getElementById("gender").innerHTML = data.gender;
+											document.getElementById("phonenum").innerHTML = data.phonenum;
+											document.getElementById("address").innerHTML = data.address;
+											localStorage.setItem('userJSON', JSON.stringify(data));
+											console.log(data);
 										},
 										error : function(error) {
 											console.log(error);
