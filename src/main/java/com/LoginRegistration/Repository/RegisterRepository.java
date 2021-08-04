@@ -10,11 +10,10 @@ import com.LoginRegistration.entity.Register;
 @Repository
 public interface RegisterRepository extends JpaRepository<Register, Integer> {
 
+	@Query(value = "select * from registration where userid=?", nativeQuery = true)
 	public Register findById(int userid);
 
-	@Query(value = "select security_id , security_answer from registration where security_id=? and security_answer=? and userid=?", nativeQuery = true)
-	public Register findBySecurityIdAndSecurityAns(@Param("security_id") int security_id,
-			@Param("security_answer") String security_answer, @Param("userid") int userid);
+	
 
 	@Modifying
 	@Query(value = "UPDATE registration set firstname=:firstname,lastname=:lastname,dob=:dob,gender=:gender,phonenum=:phonenum, address=:address where userid=:userid", nativeQuery = true)
