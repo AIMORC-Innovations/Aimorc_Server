@@ -61,8 +61,7 @@ public class LoginController {
 	@Transactional
 	public ResponseEntity<?> generateToken(@RequestBody Login login, HttpServletRequest response) throws Exception {
 		System.out.println(login);
-		this.authenicationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
+		this.authenicationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword()));
 		UserDetails userdetails = this.loginServices.loadUserByUsername(login.getUsername());
 		String token = this.jwtutil.generateToken(userdetails);
 		String username = (String) decodeToken(token);

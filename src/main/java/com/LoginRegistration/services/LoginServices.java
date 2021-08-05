@@ -25,6 +25,7 @@ import com.LoginRegistration.Exception.UserNotFoundException;
 import com.LoginRegistration.Repository.LoginRepository;
 import com.LoginRegistration.Repository.RegisterRepository;
 import com.LoginRegistration.entity.Password;
+import com.LoginRegistration.entity.Constants;
 import com.LoginRegistration.entity.Login;
 import com.LoginRegistration.entity.Profile;
 import com.LoginRegistration.entity.Register;
@@ -35,6 +36,9 @@ public class LoginServices implements UserDetailsService {
 
 	@Autowired
 	private LoginRepository loginRepository;
+	
+	@Autowired
+	private Constants constansts;
 
 	@Autowired
 	private RegisterRepository registerRepository;
@@ -46,10 +50,10 @@ public class LoginServices implements UserDetailsService {
 			String str = logins.get().getPassword();
 			Base64.Decoder decoder = Base64.getDecoder();
 			String dStr = new String(decoder.decode(str));
-			  new ResponseEntity<String>("Success",HttpStatus.OK);
+			 
 			return new User(logins.get().getUsername(), dStr, new ArrayList<>());
 		} else {
-			throw new UsernameNotFoundException("User not found");
+			return (UserDetails) new ResponseEntity<String>("Invalid Credentials", HttpStatus.FORBIDDEN);
 		}
 	}
 
@@ -156,11 +160,6 @@ return false;
 	public boolean registeruser(Userdata newuser) {
 		Login login = new Login();
 		Register register = new Register();
-		String statusMessage = "";
-		statusMessage = "User Succecssfully registered!";
-		String message = "Welcome from AIMORC Innovations, You are Successfully registered for our Portal. Thank you!";
-		String subject = "Confirm Registration";
-		String from = "aimorc.ecomm@gmail.com";
 		String encryptedpassword = getEncodedString(newuser.getPassword());
 		Optional<Login> existingusername = loginRepository.findByUsername(newuser.getUsername());
 		login.setUsername(newuser.getUsername());
@@ -184,20 +183,20 @@ return false;
 		register.setSecurity_id(newuser.getSecurity_id());
 		register.setSecurity_answer(newuser.getSecurity_answer());
 		registerRepository.save(register);
-		sendEmail(message, subject, login.getUsername(), from);
+		sendEmail(constansts.message, constansts.subject, login.getUsername(), constansts.from);
 		new ResponseEntity<String>("success!", HttpStatus.ACCEPTED);
 		return true;
 	}
 
 	private static void sendEmail(String message, String subject, String username, String from) {
-		// variable for gmail
-		String host = "smtp.gmail.com";
-		// get system properties
-		Properties properties = System.getProperties();
-		properties.put("mail.smtp.host", host);
+		// variable for gmail public static final 
+		String host = "smtp.gmail.com"; 
+		//get system properties 
+		Properties properties =System.getProperties(); 
+		properties.put("mail.smtp.host",host);
 		properties.put("mail.smtp.port", "465");
 		properties.put("mail.smtp.ssl.enable", "true");// for security
-		properties.put("mail.smtp.auth", "true");
+		 properties.put("mail.smtp.auth", "true");
 		// for aunthenication //gettingSession object
 		Session session = Session.getInstance(properties, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -218,8 +217,7 @@ return false;
 			mimemessage.setText(message);
 			// send
 			Transport.send(mimemessage);
-			System.out.println("Sent successfully...........");
-		} catch (MessagingException e) {
+	} catch (MessagingException e) {
 			e.printStackTrace();
 		}
 	}
